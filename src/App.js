@@ -7,15 +7,12 @@ import moment from "moment";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Time
-          targetTime={moment()
-            .add(23, "hours")
-            .format()}
-          includeTime={false}
-          dynamic={false}
-        ></Time>
-      </header>
+      <Time
+        targetTime={moment().add(5, "minutes")}
+        includeTime={true}
+        dynamic={true}
+        displayExtras={true}
+      ></Time>
     </div>
   );
 }

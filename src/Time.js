@@ -1,12 +1,13 @@
 import React from "react";
 import Moment from "react-moment";
 import moment from "moment";
+import Clock from "react-clock";
 
 class Time extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTime: moment().format()
+      currentTime: moment()
     };
   }
   //   changeColor = () => {
@@ -17,7 +18,7 @@ class Time extends React.Component {
   //   }
   render() {
     console.log("state", this.state);
-    const displayTimeTwo = this.props.includeTime
+    const displayDifference = this.props.includeTime
       ? Math.abs(
           moment(moment().format()).diff(this.props.targetTime, "seconds")
         ) >= 1
@@ -30,34 +31,55 @@ class Time extends React.Component {
     //   : "less than 1 day";
     return (
       <div>
-        <p>Display time two: {displayTimeTwo.toString()}</p>
-        <p>
-          Current time <Moment date={this.state.currentTime} />
-        </p>
-        {displayTimeTwo ? (
+        {this.props.displayExtras ? (
+          <div>
+            <div>
+              Current time <Moment date={this.state.currentTime} />
+              <br></br>
+              <div
+                style={{
+                  display: "inline-block",
+                  textAlign: "center"
+                }}
+              >
+                <Clock value={this.state.currentTime.toDate()} />
+              </div>
+            </div>
+            <div>
+              <br></br>
+              Target time: <Moment date={this.props.targetTime} />
+              <br></br>
+              <div
+                style={{
+                  display: "inline-block",
+                  textAlign: "center"
+                }}
+              >
+                <Clock value={this.props.targetTime.toDate()} />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <p></p>
+        )}
+        {displayDifference ? (
           <p>
-            TargetTime <Moment date={this.props.targetTime} />
+            Difference:{" "}
+            <Moment diff={this.state.currentTime} unit="minutes">
+              {this.props.targetTime}
+            </Moment>{" "}
+            minutes
           </p>
         ) : (
-          <p> </p>
+          <p></p>
         )}
-        <p>
-          Difference:{" "}
-          <Moment diff={this.state.currentTime} unit="hours">
-            {this.props.targetTime}
-          </Moment>{" "}
-          hours
-        </p>
       </div>
     );
   }
   componentDidMount() {
     console.log("refreshed");
     if (this.props.dynamic)
-      setInterval(
-        () => this.setState({ currentTime: moment().format() }),
-        5000
-      );
+      setInterval(() => this.setState({ currentTime: moment() }), 1000);
   }
 }
 
