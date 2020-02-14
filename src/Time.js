@@ -7,14 +7,14 @@ class Time extends React.Component {
     super(props);
     this.state = {
       currentTime: moment().format()
-      //   displayTimeTwo: this.props.includeTime
-      //     ? moment(moment().format()).diff(this.props.targetTime, "seconds") >= 1
-      //     : moment(moment().format()).diff(this.props.targetTime, "days") >= 1
     };
   }
   //   changeColor = () => {
   //     this.setState({ color: "blue" });
   //   };
+  //   updateTime() {
+  //       this.setState
+  //   }
   render() {
     console.log("state", this.state);
     const displayTimeTwo = this.props.includeTime
@@ -30,7 +30,7 @@ class Time extends React.Component {
     //   : "less than 1 day";
     return (
       <div>
-        <p>display second: {displayTimeTwo.toString()}</p>
+        <p>Display time two: {displayTimeTwo.toString()}</p>
         <p>
           Current time <Moment date={this.state.currentTime} />
         </p>
@@ -43,16 +43,21 @@ class Time extends React.Component {
         )}
         <p>
           Difference:{" "}
-          <Moment diff={this.state.currentTime} unit="hours" decimal>
+          <Moment diff={this.state.currentTime} unit="hours">
             {this.props.targetTime}
           </Moment>{" "}
           hours
         </p>
-        {/* <button type="button" onClick={this.changeColor}>
-          Change color
-        </button> */}
       </div>
     );
+  }
+  componentDidMount() {
+    console.log("refreshed");
+    if (this.props.dynamic)
+      setInterval(
+        () => this.setState({ currentTime: moment().format() }),
+        5000
+      );
   }
 }
 
